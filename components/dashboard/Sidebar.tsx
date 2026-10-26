@@ -1,12 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Project, Task } from "@/lib/types";
 
 export function Sidebar({ projects, tasks, selectedProject, onSelect, onCreate, onUpdate, onArchive }: {
   projects: Project[]; tasks: Task[]; selectedProject: string; onSelect: (id: string) => void;
   onCreate: (name: string) => Promise<void>; onUpdate: (id: string, name: string) => Promise<void>; onArchive: (id: string) => Promise<void>;
 }) {
-  const [name, setName] = useState(""); const [editing, setEditing] = useState(""); const [editName, setEditName] = useState(""); const [createError, setCreateError] = useState(""); const [creating, setCreating] = useState(false);
+  const [name, setName] = useState(""); const [editing, setEditing] = useState(""); const [editName, setEditName] = useState(""); const [createError, setCreateError] = useState(""); const [creating, setCreating] = useState(false); const projectNameInput = useRef<HTMLInputElement>(null);
   const active = projects.filter((p) => !p.archived);
   return <aside className="sidebar">
     <div className="brand"><span className="brand-mark">M</span> momentum</div>
@@ -23,7 +23,7 @@ export function Sidebar({ projects, tasks, selectedProject, onSelect, onCreate, 
         </div>;
       })}
     </nav>
-      <form className="inline-project" onSubmit={async (e) => { e.preventDefault(); const projectName = name.trim(); if (!projectName) { setCreateError("Enter a project name, then select Add."); return; } setCreating(true); setCreateError(""); try { await onCreate(projectName); setName(""); } catch (error) { setCreateError(error instanceof Error ? error.message : "Project could not be created. Check your connection and try again."); } finally { setCreating(false); } }}><input aria-label="New project name" placeholder="Name your project" value={name} onChange={(e) => { setName(e.target.value); setCreateError(""); }} maxLength={120} required /><button className="btn btn-quiet btn-small" type="submit" disabled={creating || !name.trim()}>{creating ? "Adding…" : "Add"}</button></form>
+      <form className="inline-project" onSubmit={async (e) => { e.preventDefault(); const projectName = name.trim(); if (!projectName) { setCreateError("Enter a project name, then select Add."); projectNameInput.current?.focus(); return; } setCreating(true); setCreateError(""); try { await onCreate(projectName); setName(""); } catch (error) { setCreateError(error instanceof Error ? error.message : "Project could not be created. Check your connection and try again."); } finally { setCreating(false); } }}><input ref={projectNameInput} aria-label="New project name" placeholder="Name your project" value={name} onChange={(e) => { setName(e.target.value); setCreateError(""); }} maxLength={120} /><button className="btn btn-quiet btn-small" type="submit" disabled={creating}>{creating ? "Adding…" : "Add"}</button></form>
       {createError && <div className="error" role="alert">{createError}</div>}
     </section>
     <div className="sidebar-foot">Shared space · {active.length} active {active.length === 1 ? "project" : "projects"}</div>
