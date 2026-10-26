@@ -14,7 +14,7 @@ A single-page project and task dashboard for the Hult Cohort Fall 2026. It combi
 
 **Production URL:** https://hult-week1-pm-platform.vercel.app
 
-The app is deployed on Vercel from the public GitHub repository. Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in the Vercel project's Production environment, then redeploy. Until these variables are configured, the dashboard displays its workspace setup instructions and authentication/data features are unavailable. Optionally set `OPENAI_API_KEY` and `OPENAI_MODEL` to enable description expansion. Configure the production origin in Supabase Auth's allowed redirect URLs.
+The app is deployed on Vercel; source code lives in the public GitHub repository. Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in the Vercel project's Production environment, then redeploy. Until these variables are configured, the dashboard displays its workspace setup instructions and authentication/data features are unavailable. Optionally set `OPENAI_API_KEY` and `OPENAI_MODEL` to enable description expansion. Configure the production origin in Supabase Auth's allowed redirect URLs.
 
 ## Architecture
 
